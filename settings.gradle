@@ -1,0 +1,2 @@
+rootProject.name='Android_Lab03_Client'
+include ':app'
