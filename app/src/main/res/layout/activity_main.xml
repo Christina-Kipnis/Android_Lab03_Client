@@ -37,7 +37,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="052-12345678" />
+                android:hint="052-12345678" />
 
             <Button
                 android:id="@+id/buttonCall"
@@ -62,7 +62,7 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:layout_marginRight="10dp"
-                android:text="https://developer.android.com"/>
+                android:hint="https://developer.android.com"/>
 
             <Button
                 android:id="@+id/buttonSurf"
@@ -87,7 +87,7 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:layout_marginRight="10dp"
-                android:text="target@mail.com"/>
+                android:hint="target@mail.com"/>
 
             <Button
                 android:id="@+id/buttonEmail"
