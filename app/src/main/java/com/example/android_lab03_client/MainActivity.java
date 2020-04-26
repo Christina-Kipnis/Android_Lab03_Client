@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,31 +32,69 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void dialNumber(View view) {
-        String phoneNumData = "tel:" + phoneNum.getText().toString();
-        Intent dialIntent = new Intent(Intent.ACTION_DIAL);
-        dialIntent.setData(Uri.parse(phoneNumData));
-        if( dialIntent.resolveActivity(getPackageManager()) != null )
-            startActivity(dialIntent);
+        String phoneNumData;
+        String phoneNumTemp = phoneNum.getText().toString();
+
+        //Check if phone number received
+        if(TextUtils.isEmpty(phoneNumTemp)) //if string is empty, show popup
+        {
+            Toast.makeText(getApplicationContext(), "The string cannot be empty", Toast.LENGTH_LONG).show();
+        }
+        else                                //else process request with implicit intent
+        {
+            phoneNumData = "tel:" + phoneNumTemp;   //phone number template
+            Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+            dialIntent.setData(Uri.parse(phoneNumData));
+            if( dialIntent.resolveActivity(getPackageManager()) != null )
+                startActivity(dialIntent);
+            else
+                Toast.makeText(getApplicationContext(), "No app found", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void goToSite(View view) {
-        Uri webpage = Uri.parse(webAddress.getText().toString());
-        Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
-        if( webIntent.resolveActivity(getPackageManager()) != null )
-            startActivity(webIntent);
+        String webAddressTemp = webAddress.getText().toString();
+
+        //Check if web address received
+        if(TextUtils.isEmpty(webAddressTemp))   //if string is empty, show popup
+        {
+            Toast.makeText(getApplicationContext(), "The string cannot be empty", Toast.LENGTH_LONG).show();
+        }
+        else                                    //else process request implicit intent
+        {
+            Uri webPage = Uri.parse(webAddressTemp);
+            Intent webIntent = new Intent(Intent.ACTION_VIEW, webPage);
+            if (webIntent.resolveActivity(getPackageManager()) != null)
+                startActivity(webIntent);
+            else
+                Toast.makeText(getApplicationContext(), "No app found", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void sendMail(View view) {
+        String emailAddressTemp = emailAddress.getText().toString();
 
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, emailAddress.getText().toString());
-        if( emailIntent.resolveActivity(getPackageManager()) != null )
-            startActivity(emailIntent);
+        //Check if email address received
+        if(TextUtils.isEmpty(emailAddressTemp)) //if string is empty, show popup
+        {
+            Toast.makeText(getApplicationContext(), "The string cannot be empty", Toast.LENGTH_LONG).show();
+        }
+        else                                    //else process request implicit intent
+        {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            emailIntent.setData(Uri.parse("mailto:"));
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, emailAddressTemp);
+            if (emailIntent.resolveActivity(getPackageManager()) != null)
+                startActivity(emailIntent);
+            else
+                Toast.makeText(getApplicationContext(), "No app found", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void registerFullName(View view) {
         Intent registerIntent = new Intent(ACTION_REGISTER);
+
+        //check if activity can be resolved to an app
         if( registerIntent.resolveActivity(getPackageManager()) != null )
             startActivityForResult(registerIntent, REGISTER_ACTIVITY_REQUEST_CODE);
         else
